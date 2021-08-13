@@ -159,6 +159,14 @@ func tomTagName(data interface{}, namePattern string, tagName string) (M, error)
 			kind := f.Type.Kind()
 			if kind == reflect.Ptr {
 				kind = f.Type.Elem().Kind()
+				if kind == reflect.Struct && rv.Field(i).Interface() != nil {
+					subRes, err := tomTagName(rv.Field(i).Interface(), namePattern, tagName)
+					if err != nil {
+						return nil, err
+					}
+					res[fieldName] = subRes
+					continue
+				}
 			} else if (kind == reflect.Struct && f.Type != reflect.TypeOf(time.Time{})) || kind == reflect.Map {
 				// Then we need to call this function again to fetch the sub value
 				subRes, err := tomTagName(rv.Field(i).Interface(), namePattern, tagName)
