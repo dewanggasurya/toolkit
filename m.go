@@ -185,7 +185,7 @@ func tomTagName(data interface{}, namePattern string, tagName string) (M, error)
 				count := slice.Len()
 				elemType := slice.Type().Elem().Kind()
 				switch elemType {
-				case reflect.Map, reflect.Struct, reflect.Ptr, reflect.Slice:
+				case reflect.Map, reflect.Struct, reflect.Ptr:
 					ms := make([]M, count)
 					for si := 0; si < count; si++ {
 						data := slice.Index(si)
